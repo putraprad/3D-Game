@@ -12,6 +12,7 @@ Dim pindah# = 1
 
 Dim panjangX = 30, panjangZ = -30
 Dim scale = 10
+Dim speed# = .05, speedrotate# = .25
 
 Dim i, banyakRumah = 4
 Dim geserX = 5, geserZ = 5
@@ -561,20 +562,19 @@ swapBuffers()
     glVertex3f(2.5, 0.75, -10.875)
     glTexCoord2f (0, 1)
     glVertex3f(0.5, 0.75, -10.875)
-    while SyncTimer (10)  
-        if ScanKeyDown (VK_LEFT)  then ppandangx# = ppandangx# + 1 endif
-        if ScanKeyDown (VK_RIGHT) then ppandangx# = ppandangx# - 1 endif
-        if ScanKeyDown (VK_UP)    then
-            pmatax# = pmatax# - sind (ppandangx#) * .5
-            pmataz# = pmataz# - cosd (ppandangx#) * .5
-        endif
-        if ScanKeyDown (VK_DOWN)  then
-            pmatax# = pmatax# + sind (ppandangx#) * .5
-            pmataz# = pmataz# + cosd (ppandangx#) * .5
-        endif
-        if pmatax# < 2 then pmatax# = 2 endif
-        if pmatax# >  (panjangX*scale)-2 then pmatax# =  (panjangX*scale)-2 endif
-        if pmataz# > 10*scale-2 then pmataz# = 10*scale-2 endif
-        if pmataz# < panjangZ*scale+2 then pmataz# = panjangZ*scale+2 endif
-    wend
+
+    if ScanKeyDown (VK_LEFT)  then ppandangx# = ppandangx# + speedrotate# endif
+    if ScanKeyDown (VK_RIGHT) then ppandangx# = ppandangx# - speedrotate# endif
+    if ScanKeyDown (VK_UP)    then
+        pmatax# = pmatax# - sind (ppandangx#) * speed#
+        pmataz# = pmataz# - cosd (ppandangx#) * speed#
+    endif
+    if ScanKeyDown (VK_DOWN)  then
+        pmatax# = pmatax# + sind (ppandangx#) * speed#
+        pmataz# = pmataz# + cosd (ppandangx#) * speed#
+    endif
+    if pmatax# < 2 then pmatax# = 2 endif
+    if pmatax# >  (panjangX*scale)-2 then pmatax# =  (panjangX*scale)-2 endif
+    if pmataz# > 10*scale-2 then pmataz# = 10*scale-2 endif
+    if pmataz# < panjangZ*scale+2 then pmataz# = panjangZ*scale+2 endif
 wend

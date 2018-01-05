@@ -1,0 +1,580 @@
+'posisi mata 
+Dim pmatax# = 10
+Dim pmatay# = 1
+Dim pmataz# = 20 
+
+'posisi titik pandang 
+Dim ppandangx# = 0 
+Dim ppandangy# = 0
+Dim ppandangz# = -1000  
+
+Dim pindah# = 1  
+
+Dim panjangX = 30, panjangZ = -30
+Dim scale = 10
+
+Dim i, banyakRumah = 4
+Dim geserX = 5, geserZ = 5
+Dim iGeserX = 0, iGeserZ = 0
+'variabel untuk menyimpan gambar tekstur
+Dim tekstur(5)
+Dim tekstur2(5)                                   
+Dim teksTembok2(3)
+Dim teksBTembok2(3)
+Dim teksDTembok2(3)
+Dim teksGenteng2(3)
+
+Dim teksAlas = LoadTexture("img\alas.jpg")
+Dim teksGenteng = LoadTexture("img\roof.jpg")
+Dim teksTembok = LoadTexture("img\tembok.jpg")
+Dim teksBTembok = LoadTexture("img\btembok.jpg")
+
+teksTembok2(1) = LoadTexture("img\tembok2.jpg")
+teksTembok2(2) = LoadTexture("img\tembok3.jpg")
+teksTembok2(3) = LoadTexture("img\tembok4.jpg")
+ 
+teksBTembok2(1) = LoadTexture("img\btembok2.jpg")
+teksBTembok2(2) = LoadTexture("img\btembok3.jpg")
+teksBTembok2(3) = LoadTexture("img\btembok4.jpg")
+
+teksDTembok2(1) = LoadTexture("img\dtembok2.jpg")
+teksDTembok2(2) = LoadTexture("img\dtembok3.jpg")
+teksDTembok2(3) = LoadTexture("img\dtembok4.jpg")
+
+teksGenteng2(1) = LoadTexture("img\roof2.jpg")
+teksGenteng2(2) = LoadTexture("img\roof3.jpg")
+teksGenteng2(3) = LoadTexture("img\roof4.jpg")
+
+tekstur(1) = LoadTexture("img\1.jpg")
+tekstur(2) = LoadTexture("img\2.jpg")
+tekstur(3) = LoadTexture("img\3.jpg")
+tekstur(4) = LoadTexture("img\4.jpg")
+tekstur(5) = LoadTexture("img\5.jpg") 
+
+tekstur2(1) = LoadTexture("img\6.jpg")
+tekstur2(2) = LoadTexture("img\7.jpg")
+tekstur2(3) = LoadTexture("img\8.jpg")
+tekstur2(4) = LoadTexture("img\9.jpg")
+tekstur2(5) = LoadTexture("img\10.jpg")
+
+'tekstur = loadmipmaptexture("gbr/kayu.jpg")                                        
+
+'beritahu bahwa akan menggunakan tekstur
+glEnable(gl_texture_2d)
+
+gluLookAt(pmatax#, pmatay#, pmataz#, ppandangx#, ppandangy#, ppandangz#, 0,1,0) 'posisi mata, posisi titik pandang, vektor up (0,1,0)
+
+while true 
+glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+glLoadIdentity()
+glRotatef (-ppandangx#, 0, 1, 0)
+glTranslatef (-pmatax#, -pmatay#, -pmataz#)
+glScalef (scale, scale, scale)
+
+
+
+iGeserX = 0
+iGeserZ = 0
+glBindTexture(gl_texture_2d, teksAlas)
+glBegin(GL_QUADS) 'tembok kanan
+    glTexCoord2d(0,1)
+    glVertex3f(panjangX, 0, 10) 
+    glTexCoord2d(0,0)
+    glVertex3f(panjangX, 1, 10)
+    glTexCoord2d(1,0)
+    glVertex3f(panjangX, 1, panjangZ)
+    glTexCoord2d(1,1)
+    glVertex3f(panjangX, 0, panjangZ)
+glEnd()
+glBegin(GL_QUADS) 'tembok belakang
+    glTexCoord2d(0,1)
+    glVertex3f(0, 0, panjangZ)
+    glTexCoord2d(0,0)
+    glVertex3f(0, 1, panjangZ)
+    glTexCoord2d(1,0)
+    glVertex3f(panjangX, 1, panjangZ)
+    glTexCoord2d(1,1)
+    glVertex3f(panjangX, 0, panjangZ)
+glEnd()
+glBegin(GL_QUADS) 'tembok kiri
+    glTexCoord2d(0,1)
+    glVertex3f(0, 0, 10)  
+    glTexCoord2d(0,0)
+    glVertex3f(0, 1, 10)
+    glTexCoord2d(1,0)
+    glVertex3f(0, 1, panjangZ)
+    glTexCoord2d(1,1)
+    glVertex3f(0, 0, panjangZ)
+glEnd()
+glBegin(GL_QUADS) 'tembok depan
+    glTexCoord2d(0,1)
+    glVertex3f(0, 0, 10)   
+    glTexCoord2d(0,0)
+    glVertex3f(0, 1, 10)
+    glTexCoord2d(1,0)
+    glVertex3f(panjangX, 1, 10)
+    glTexCoord2d(1,1)
+    glVertex3f(panjangX, 0, 10)
+glEnd()
+glBindTexture(gl_texture_2d, teksAlas)
+glBegin(GL_QUADS) 'alas
+    glTexCoord2d(0,1)
+    glVertex3f(panjangX, 0, 10)   
+    glTexCoord2d(0,0)
+    glVertex3f(panjangX, 0, panjangZ)
+    glTexCoord2d(1,0)
+    glVertex3f(0, 0, panjangZ)
+    glTexCoord2d(1,1)
+    glVertex3f(0, 0, 10)
+glEnd()
+
+
+'rumah 1 ---------------------------------------------------------------------------------------------------
+for i = 0 to banyakRumah
+glTranslatef (0, 0, -geserZ)
+iGeserZ = iGeserZ + geserZ
+'box ****************************************************
+glBindTexture(gl_texture_2d, tekstur(i+1))
+glBegin(GL_QUADS) 'kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(0.5, 0, 2.125)
+    glTexCoord2f (1, 0)
+    glVertex3f(2.5, 0, 2.125)
+    glTexCoord2f (1, 1)
+    glVertex3f(2.5, 0.75, 2.125)
+    glTexCoord2f (0, 1)
+    glVertex3f(0.5, 0.75, 2.125)
+glEnd()
+glBegin(GL_QUADS) 'kanan
+    glTexCoord2f (1, 0)
+    glVertex3f(0.5, 0, 3.875)
+    glTexCoord2f (0, 0)
+    glVertex3f(2.5, 0, 3.875)
+    glTexCoord2f (0, 1)
+    glVertex3f(2.5, 0.75, 3.875)
+    glTexCoord2f (1, 1)
+    glVertex3f(0.5, 0.75, 3.875)
+glEnd()
+'*********************************************************
+glBindTexture(gl_texture_2d, teksTembok)
+glBegin(GL_QUADS)  'dinding kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, 2)   
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 0, 2)
+    glTexCoord2f (1, 1)
+    glVertex3f(3, 1, 2) 
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, 2)
+glEnd()                                     
+glBegin(GL_QUADS)  'dinding kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, 4)   
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 0, 4)
+    glTexCoord2f (1, 1)
+    glVertex3f(3, 1, 4) 
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, 4)
+glEnd()
+glBindTexture(gl_texture_2d, teksBTembok) 
+glBegin(GL_QUADS)  'dinding belakang
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, 4)  
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 0, 2)
+    glTexCoord2f (1, 1)
+    glVertex3f(0, 1, 2)
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, 4)
+glEnd()                                              
+glBegin(GL_QUADS)  'dinding atap
+    glVertex3f(0, 1, 4)  
+    glVertex3f(0, 1, 2)
+    glVertex3f(3, 1, 2)
+    glVertex3f(3, 1, 4)
+glEnd()
+glBindTexture(gl_texture_2d, teksGenteng)    
+glBegin(GL_QUADS)  'atap kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 2, 3)  
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, 2)
+    glTexCoord2f (1, 1)
+    glVertex3f(3, 1, 2)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 2, 3)
+glEnd()
+glBegin(GL_QUADS)  'atap kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 2, 3)
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, 4)
+    glTexCoord2f (1, 1)
+    glVertex3f(3, 1, 4)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 2, 3)
+glEnd()     
+glBegin(GL_TRIANGLES)  'tutup belakang
+    glVertex3f(0, 2, 3)  
+    glVertex3f(0, 1, 4)
+    glVertex3f(0, 1, 2)
+glEnd()
+glBegin(GL_TRIANGLES)  'tutup depan
+    glVertex3f(3, 2, 3)  
+    glVertex3f(3, 1, 4)
+    glVertex3f(3, 1, 2)
+glEnd()
+next
+glTranslatef (0, 0, iGeserZ)
+iGeserZ = 0
+'---------------------------------------------------------------------------------------------------
+glTranslatef (0, 0, -(geserZ*3))
+'rumah 2 ---------------------------------------------------------------------------------------------------
+for i = 0 to banyakRumah
+glTranslatef (geserX, 0, 0)
+iGeserX = iGeserX + geserX
+
+'box ****************************************************
+glBindTexture(gl_texture_2d, tekstur2(i+1))
+glBegin(GL_QUADS) 'belakang
+    glTexCoord2f (0, 0)
+    glVertex3f(0.5, 0, -10.875)
+    glTexCoord2f (1, 0)
+    glVertex3f(2.5, 0, -10.875)
+    glTexCoord2f (1, 1)
+    glVertex3f(2.5, 0.75, -10.875)
+    glTexCoord2f (0, 1)
+    glVertex3f(0.5, 0.75, -10.875)
+glEnd()
+
+'*********************************************************
+glBindTexture(gl_texture_2d, teksTembok2(1))
+glBegin(GL_QUADS)  'dinding kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -7)  
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 0, -11)
+glEnd()
+glBegin(GL_QUADS)  'dinding kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, -7)  
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 0, -11)
+glEnd()
+glBindTexture(gl_texture_2d, teksBTembok2(1)) 
+glBegin(GL_QUADS)  'dinding belakang
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -11)  
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 1)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 0, -11)
+glEnd()
+glBindTexture(gl_texture_2d, teksDTembok2(1))
+glBegin(GL_QUADS)  'dinding depan kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -7)  
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(2, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(2, 0, -7)
+glEnd()
+glBegin(GL_QUADS)  'dinding depan kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, -7)  
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(1, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(1, 0, -7)
+glEnd() 
+glBindTexture(gl_texture_2d, teksGenteng2(1))      
+glBegin(GL_QUADS)  'atap kiri
+    glTexCoord2f (0, 1)
+    glVertex3f(1.5, 2, -7)  
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 1)
+    glVertex3f(1.5, 2, -11)
+glEnd()        
+glBegin(GL_QUADS)  'atap kanan
+    glTexCoord2f (1, 1)
+    glVertex3f(1.5, 2, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (0, 1)
+    glVertex3f(1.5, 2, -11)
+glEnd()
+glBegin(GL_TRIANGLES)  'tutup depan
+    glVertex3f(1.5, 2, -7) 
+    glVertex3f(3, 1, -7)
+    glVertex3f(0, 1, -7)
+glEnd()
+glBegin(GL_TRIANGLES)  'tutup belakang
+    glVertex3f(1.5, 2, -11)  
+    glVertex3f(3, 1, -11)
+    glVertex3f(0, 1, -11)
+glEnd()
+next
+glTranslatef (-iGeserX, 0, 0)
+iGeserX = 0
+'---------------------------------------------------------------------------------------------------
+'rumah 3 ---------------------------------------------------------------------------------------------------
+glTranslatef (0, 0, geserZ*2)
+for i = 0 to banyakRumah
+glTranslatef (geserX, 0, 0)
+iGeserX = iGeserX + geserX              
+'box ****************************************************
+glBindTexture(gl_texture_2d, tekstur2(i+1))
+glBegin(GL_QUADS) 'belakang
+    glTexCoord2f (0, 0)
+    glVertex3f(0.5, 0, -10.875)
+    glTexCoord2f (1, 0)
+    glVertex3f(2.5, 0, -10.875)
+    glTexCoord2f (1, 1)
+    glVertex3f(2.5, 0.75, -10.875)
+    glTexCoord2f (0, 1)
+    glVertex3f(0.5, 0.75, -10.875)
+glEnd()
+
+'*********************************************************
+glBindTexture(gl_texture_2d, teksTembok2(2))        
+glBegin(GL_QUADS)  'dinding kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -7)  
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 0, -11)
+glEnd()
+glBegin(GL_QUADS)  'dinding kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, -7)
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 0, -11)
+glEnd()
+glBindTexture(gl_texture_2d, teksBTembok2(2))  
+glBegin(GL_QUADS)  'dinding belakang
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -11)  
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 1)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 0, -11)
+glEnd() 
+glBindTexture(gl_texture_2d, teksDTembok2(2))
+glBegin(GL_QUADS)  'dinding depan kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -7)  
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(2, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(2, 0, -7)
+glEnd()
+glBegin(GL_QUADS)  'dinding depan kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, -7)
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(1, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(1, 0, -7)
+glEnd() 
+glBindTexture(gl_texture_2d, teksGenteng2(2))      
+glBegin(GL_QUADS)  'atap kiri
+    glTexCoord2f (0, 1)
+    glVertex3f(1.5, 2, -7)  
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 1)
+    glVertex3f(1.5, 2, -11)
+glEnd()        
+glBegin(GL_QUADS)  'atap kanan
+    glTexCoord2f (1, 1)
+    glVertex3f(1.5, 2, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (0, 1)
+    glVertex3f(1.5, 2, -11)
+glEnd()
+glBegin(GL_TRIANGLES)  'tutup depan
+    glVertex3f(1.5, 2, -7)
+    glVertex3f(3, 1, -7)
+    glVertex3f(0, 1, -7)
+glEnd()
+glBegin(GL_TRIANGLES)  'tutup belakang
+    glVertex3f(1.5, 2, -11)
+    glVertex3f(3, 1, -11)
+    glVertex3f(0, 1, -11)
+glEnd()
+next
+glTranslatef (-iGeserX, 0, 0)
+iGeserX = 0
+'---------------------------------------------------------------------------------------------------
+'rumah 4 ---------------------------------------------------------------------------------------------------
+glTranslatef (0, 0, geserZ*2)
+for i = 0 to banyakRumah
+glTranslatef (geserX, 0, 0)
+iGeserX = iGeserX + geserX   
+'box ****************************************************
+glBindTexture(gl_texture_2d, tekstur2(i+1))
+glBegin(GL_QUADS) 'belakang
+    glTexCoord2f (0, 0)
+    glVertex3f(0.5, 0, -10.875)
+    glTexCoord2f (1, 0)
+    glVertex3f(2.5, 0, -10.875)
+    glTexCoord2f (1, 1)
+    glVertex3f(2.5, 0.75, -10.875)
+    glTexCoord2f (0, 1)
+    glVertex3f(0.5, 0.75, -10.875)
+glEnd()
+
+'*********************************************************
+glBindTexture(gl_texture_2d, teksTembok2(3))        
+glBegin(GL_QUADS)  'dinding kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -7)
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 0, -11)
+glEnd()
+glBegin(GL_QUADS)  'dinding kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, -7)
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 0, -11)
+glEnd()   
+glBindTexture(gl_texture_2d, teksBTembok2(3)) 
+glBegin(GL_QUADS)  'dinding belakang
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -11)
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 1)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 0, -11)
+glEnd()
+glBindTexture(gl_texture_2d, teksDTembok2(3))
+glBegin(GL_QUADS)  'dinding depan kiri
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 0, -7)
+    glTexCoord2f (0, 1)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(2, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(2, 0, -7)
+glEnd()
+glBegin(GL_QUADS)  'dinding depan kanan
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 0, -7)
+    glTexCoord2f (0, 1)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (1, 1)
+    glVertex3f(1, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(1, 0, -7)
+glEnd()
+glBindTexture(gl_texture_2d, teksGenteng2(3))       
+glBegin(GL_QUADS)  'atap kiri
+    glTexCoord2f (0, 1)
+    glVertex3f(1.5, 2, -7)
+    glTexCoord2f (0, 0)
+    glVertex3f(3, 1, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(3, 1, -11)
+    glTexCoord2f (1, 1)
+    glVertex3f(1.5, 2, -11)
+glEnd()        
+glBegin(GL_QUADS)  'atap kanan
+    glTexCoord2f (1, 1)
+    glVertex3f(1.5, 2, -7)
+    glTexCoord2f (1, 0)
+    glVertex3f(0, 1, -7)
+    glTexCoord2f (0, 0)
+    glVertex3f(0, 1, -11)
+    glTexCoord2f (0, 1)
+    glVertex3f(1.5, 2, -11)
+glEnd()
+glBegin(GL_TRIANGLES)  'tutup depan
+    glVertex3f(1.5, 2, -7)
+    glVertex3f(3, 1, -7)
+    glVertex3f(0, 1, -7)
+glEnd()
+glBegin(GL_TRIANGLES)  'tutup belakang
+    glVertex3f(1.5, 2, -11)
+    glVertex3f(3, 1, -11)
+    glVertex3f(0, 1, -11)
+glEnd()
+next
+glTranslatef (-iGeserX, 0, 0)
+iGeserX = 0
+'---------------------------------------------------------------------------------------------------
+
+
+swapBuffers()
+    glVertex3f(0.5, 0, -10.875)
+    glTexCoord2f (1, 0)
+    glVertex3f(2.5, 0, -10.875)
+    glTexCoord2f (1, 1)
+    glVertex3f(2.5, 0.75, -10.875)
+    glTexCoord2f (0, 1)
+    glVertex3f(0.5, 0.75, -10.875)
+    while SyncTimer (10)  
+        if ScanKeyDown (VK_LEFT)  then ppandangx# = ppandangx# + 1 endif
+        if ScanKeyDown (VK_RIGHT) then ppandangx# = ppandangx# - 1 endif
+        if ScanKeyDown (VK_UP)    then
+            pmatax# = pmatax# - sind (ppandangx#) * .5
+            pmataz# = pmataz# - cosd (ppandangx#) * .5
+        endif
+        if ScanKeyDown (VK_DOWN)  then
+            pmatax# = pmatax# + sind (ppandangx#) * .5
+            pmataz# = pmataz# + cosd (ppandangx#) * .5
+        endif
+        if pmatax# < 2 then pmatax# = 2 endif
+        if pmatax# >  (panjangX*scale)-2 then pmatax# =  (panjangX*scale)-2 endif
+        if pmataz# > 10*scale-2 then pmataz# = 10*scale-2 endif
+        if pmataz# < panjangZ*scale+2 then pmataz# = panjangZ*scale+2 endif
+    wend
+wend
